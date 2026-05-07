@@ -192,7 +192,7 @@ Define the following genres (in this order) as your rows:
 
 ```java
 String[] genres = {"Action", "Comedy", "Drama", "Horror", "Romance",
-                   "Sci-Fi", "Thriller", "Animation", "Crime", "Documentary"};
+        "Sci-Fi", "Thriller", "Animation", "Crime", "Documentary"};
 ```
 
 Define the following rating tiers as your columns:
@@ -207,13 +207,76 @@ Define the following rating tiers as your columns:
 
 ### Requirements
 
-Create a method `buildGenreMatrix()` that returns an `int[][]` where each cell contains the **count** of movies belonging to that genre and rating tier. For example, `matrix[0][4]` would contain the number of Action movies with an average rating ≥ 4.0.
+The matrix itself is just numbers — a clean `int[][]` with 10 rows (genres) and 5 columns (rating tiers):
 
-Then create a method `printGenreMatrix()` that prints the matrix in a readable table format with genre names as row labels and tier names as column headers.
+```java
+int[][] matrix = new int[10][5];
+```
+
+The genre and tier labels are defined separately as `String[]` arrays and are only used when printing:
+
+```java
+String[] genres = {"Action", "Comedy", "Drama", "Horror", "Romance",
+        "Sci-Fi", "Thriller", "Animation", "Crime", "Documentary"};
+String[] tiers = {"Poor", "Below Avg", "Average", "Good", "Excellent"};
+```
+
+Create a method `buildGenreMatrix()` that returns an `int[][]` where each cell contains the **count** of movies belonging to that genre and rating tier. The rows represent genres and the columns represent rating tiers, so the matrix looks like this:
+
+| | Poor | Below Avg | Average | Good | Excellent |
+|---|---|---|---|---|---|
+| **Action** | | | | | |
+| **Comedy** | | | | | |
+| **Drama** | | | | | |
+| **Horror** | | | | | |
+| **Romance** | | | | | |
+| **Sci-Fi** | | | | | |
+| **Thriller** | | | | | |
+| **Animation** | | | | | |
+| **Crime** | | | | | |
+| **Documentary** | | | | | |
+
+For example, `matrix[0][4]` would contain the number of **Action** movies with an **Excellent** average rating (≥ 4.0). Note that a movie with multiple genres will be counted in **multiple rows** — a `Crime/Drama` film increments both `matrix[8]` (Crime) and `matrix[2]` (Drama).
+
+Then create a method `printGenreMatrix()` that prints the matrix in a readable table format using the genre and tier label arrays.
+
+### Provided Helper Method
+
+The following helper method is provided for you — add it to `MovieDatabase` as-is:
+
+```java
+private static int getRatingTier(double rating) {
+    if (rating < 2.5) return 0;
+    else if (rating < 3.0) return 1;
+    else if (rating < 3.5) return 2;
+    else if (rating < 4.0) return 3;
+    else return 4;
+}
+```
+
+### Code Outline
+
+Use the following outline as a starting point for `buildGenreMatrix()`:
+
+```java
+public static int[][] buildGenreMatrix() {
+    String[] genres = {"Action", "Comedy", "Drama", "Horror", "Romance",
+                       "Sci-Fi", "Thriller", "Animation", "Crime", "Documentary"};
+    int[][] matrix = new int[10][5];
+
+    for (Movie m : movies) {
+        int col = getRatingTier(m.getAvgRating());
+        for (int i = 0; i < genres.length; i++) {
+            // your code here
+        }
+    }
+    return matrix;
+}
+```
 
 ---
 
-## Part 5 — Recursive Recommendation
+## Extra Credit — Recursive Recommendation
 
 Add a method `recommend(String genre, double minRating, int index)` to `MovieDatabase` that uses recursion to traverse the `movies` ArrayList and return an `ArrayList<Movie>` of all movies matching the given genre with an average rating at or above `minRating`.
 
@@ -231,7 +294,7 @@ ArrayList<Movie> results = db.recommend("Drama", 4.0, 0);
 
 ---
 
-## Part 6 — Reflection
+## Part 5 — Reflection
 
 Answer the following questions in a file called `reflection.md`. Write at least 3–5 sentences per question.
 
@@ -253,13 +316,13 @@ Answer the following questions in a file called `reflection.md`. Write at least 
 
 | Part | Points |
 |---|---|
-| Part 1 — Movie Class | 15 |
-| Part 2 — Reading the CSV | 15 |
-| Part 3 — MovieDatabase Methods | 30 |
-| Part 4 — Genre-Rating Matrix | 20 |
-| Part 5 — Recursive Recommendation | 10 |
-| Part 6 — Reflection | 10 |
+| Part 1 — Movie Class | 20 |
+| Part 2 — Reading the CSV | 20 |
+| Part 3 — MovieDatabase Methods | 40 |
+| Part 4 — Genre-Rating Matrix | 10 |
+| Part 5 — Reflection | 10 |
 | **Total** | **100** |
+| **Extra Credit** — Recursive Recommendation | +5 |
 
 ---
 
@@ -271,4 +334,4 @@ Submit the following files:
 - `reflection.md`
 - Any additional classes you created
 
-Do **not** submit `movies_clean.csv` — it will be provided separately.
+Do **not** submit `movies_clean.csv` — it is already in the repository.
